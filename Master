@@ -1,30 +1,55 @@
 #include <LiquidCrystal.h>
 
-// initialize the library with the numbers of the interface pins
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+int buttonPin7= 6;    //sets pins buttons are connected to
+int buttonPin8= 7;
+int buttonPin9= 8;
+int buttonPin10= 9;
 
-void setup() {
-  // set up the LCD's number of columns and rows:
-  lcd.begin(16, 2);
-  // Print a message to the LCD.
-  lcd.print("Ready");
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2); //sets pins lcd is connected to, running in 4 bit mode, RW pin tied to gnd
+
+void setup()
+{
+  pinMode(buttonPin7, INPUT);  //assigns button pins as inputs
+  pinMode(buttonPin8, INPUT);
+  pinMode(buttonPin9, INPUT);
+  pinMode(buttonPin10, INPUT);
+
+  digitalWrite(buttonPin7, LOW);  //sets internal pulldown resistors
+  digitalWrite(buttonPin8, LOW);
+  digitalWrite(buttonPin9, LOW);
+  digitalWrite(buttonPin10, LOW);
+
+  lcd.begin(16, 2);   //lcd size
+  lcd.print("Ready"); //welcome text
+  delay(3000);  //displays for 3 secs
+  
 }
 
-void loop() {
- 
-  // scroll 29 positions (string length + display length) to the right
-  // to move it offscreen right:
-  for (int positionCounter = 0; positionCounter < 10; positionCounter++) {
-    // scroll one position right:
-    lcd.scrollDisplayRight();
-    // wait a bit:
-    delay(850);
-  }
-    for (int positionCounter = 0; positionCounter < 10; positionCounter++) {
-    // scroll one position left:
-    lcd.scrollDisplayLeft();
-    // wait a bit:
-    delay(850);
-  }
-}
 
+void loop(){
+  int buttonState1 = digitalRead(buttonPin7);  
+  int buttonState2 = digitalRead(buttonPin8);
+  int buttonState3 = digitalRead(buttonPin9);
+  int buttonState4 = digitalRead(buttonPin10);
+
+  if(buttonState1== HIGH){  //button pressed
+    lcd.setCursor(0,0);  //clears display
+    lcd.print("Insert $ 0.25");  
+
+    delay(1000);  //display it for 1 sec
+    
+  }
+
+  else if (buttonState2==HIGH){
+    lcd.setCursor(0,0);
+    lcd.print("Insert .25");  // stays on the lcd untill another buttons is pressed
+  }
+  else if(buttonState3== HIGH){
+    lcd.setCursor(0,0);
+    lcd.print("Thank you!");  // stays on lcd untill another button is presed
+  }  
+  else if (buttonState4== HIGH){
+    lcd.setCursor(0,0);
+    lcd.print("Thank you");  // stays on display untill another button is pressed
+  }  
+}
